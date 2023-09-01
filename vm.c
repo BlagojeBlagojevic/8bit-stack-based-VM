@@ -5,9 +5,9 @@
 #include <stdlib.h>
 
 typedef enum {
-    INST_PUSH,
-    INST_ADD,
-    INST_PRINT
+    PUSH,
+    ADD,
+    PRINT
 } Inst_Type;
 
 typedef struct {
@@ -16,10 +16,10 @@ typedef struct {
 } Inst;
 
 Inst program[] = {
-    {.type = INST_PUSH, .operand = 35},
-    {.type = INST_PUSH, .operand = 34},
-    {.type = INST_ADD},
-    {.type = INST_PRINT},
+    {.type = PUSH, .operand = 35},
+    {.type = PUSH, .operand = 34},
+    {.type = ADD},
+    {.type = PRINT},
 };
 #define PROGRAM_SIZE (sizeof(program) / sizeof(program[0]))
 
@@ -52,20 +52,20 @@ int main()
 
     for (size_t ip = 0; ip < PROGRAM_SIZE; ++ip) {
         switch (program[ip].type) {
-        case INST_PUSH:
+        case PUSH:
             stack_push(program[ip].operand);
             break;
-        case INST_ADD: {
+        case ADD: {
             int a = stack_pop();
             int b = stack_pop();
             stack_push(a + b);
         }
         break;
-        case INST_PRINT:
+        case PRINT:
             printf("%d\n", stack_pop());
             break;
         default:
-            assert(0 && "Invalid instruction");
+            //assert(0 && "Invalid instruction");
         }
     }
 
