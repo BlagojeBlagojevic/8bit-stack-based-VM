@@ -8,8 +8,8 @@ typedef struct
 
     int stack[Stack_Size];
     int SP;   //POINT TO A CURENT VALUE IN A STACK
-    int JMPREG;
-    //int reg[16];
+    int JMPREG;   //USED FOR CONDITIONAL JMP
+    int LOOP;     //USED FOR EXIT CONDITION FOR LOOP INCREMENT KINDA LIKE A  COUNTER
 
 }Memory;
 
@@ -28,8 +28,10 @@ typedef enum
     SET,         //SET VALUE OF STACK POINTER 
     STORE,       //PUT VALUE FROM TOP OF THE STACK ON GIVEN POSITION 
     JMP,         //SET ADDRES OF INSTRUCTION TO OPERAND1 IF DIFERENCE OPERAND AND JMPREG IS GREATER THEN ZERO 
-    SETJMPREG    //SET VALUE OF JMP REG USED FOR CONDITION ALWAYS HOLD LAST VALUE ON STACK 
-
+    SETJMPREG,   //SET VALUE OF JMP REG USED FOR CONDITION ALWAYS HOLD LAST VALUE ON STACK 
+    LOOP,        //INCREMENT VALUE OF loop REG EVRY TIME THIS FUCTION IS CALL 
+    JMPLOOP,     //SET ADDRES OF INSTRUCTION TO OPERAND1 IF DIFERENCE OPERAND AND LOOP IS GREATER THEN ZERO 
+     
 }Type;
 
 typedef struct 
@@ -45,12 +47,14 @@ Instruction program[] = {
     //{.Instr = NOP},
     
     {.Instr = PUSH, .operand = 0},
+    {.Instr = LOOP, .operand = 0},
     {.Instr = PUSH, .operand = 1},
     {.Instr = ADDI},
+    {.Instr = LOOP, .operand = 1},
     {.Instr = PRINT},
    
     //{.Instr = PUSH, .operand = 1},
-    {.Instr = JMP , .operand = 100,.operand1 = 1},
+    {.Instr = JMPLOOP , .operand = 20,.operand1 = 2},
     {.Instr = EXIT},
 
 };
@@ -167,7 +171,7 @@ void run(Instruction *instruc,Memory mem)  //MAIN RUN FUNCTION
         break;
     
         case JMP:
-{
+        {
             if (instruc[i].operand-mem.JMPREG>=0)
             {
 
@@ -177,9 +181,34 @@ void run(Instruction *instruc,Memory mem)  //MAIN RUN FUNCTION
               //printf("%d",i);         
             }
         
+         }    
+            break;
+
+    
+        case LOOP:
+    {
+        if(instruc[i].operand==0)
+            mem.LOOP=instruc[i].operand;
+        else
+            mem.LOOP++;
     }    
             break;
 
+
+    
+        case JMPLOOP:
+        {
+            if (instruc[i].operand-mem.LOOP>=0)
+            {
+
+             // assert(instruc[i].operand>PROGRAM_SIZE(program));
+              //assert(instruc[i].operand>=0);
+              i=instruc[i].operand1;  
+              //printf("%d",i);         
+            }
+        
+         }    
+            break;        
     
     
     default:
