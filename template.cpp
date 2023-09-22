@@ -189,7 +189,7 @@ int main()
         
         default:
             //assert(0 && "Invalid instruction");// TREBLO BI I OGRANICITI SVA OSTALA SRANJA DA SE NE MOGU 
-												 //	DA  UGAO NE MOZE BITI VECI OD 360 POZICIJA OD MAX NECEGA I SLICNO  
+	    //	DA  UGAO NE MOZE BITI VECI OD 360 POZICIJA OD MAX NECEGA I SLICNO  
         }
     }
 
