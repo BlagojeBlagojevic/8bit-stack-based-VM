@@ -135,6 +135,7 @@ int main()
     init();
 
     for (size_t ip = 0; ip < PROGRAM_SIZE; ip++) {
+	//PROVJERA DA LI JE INSTRUKCIJA ZAVRSENA AKO INTERUPT
         switch (program[ip].type) {   //PROVJERI TIP INSTRUKCIJE IZ PROGRAMA I RADI STA NAM TREBA
         case SET_ANGLE:
         {
